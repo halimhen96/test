@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Glow Beauty Store</title>
+<!--
+  ╔════════════════════════════════════════════╗
+  ║  FILE: index.html  —  Halaman Toko         ║
+  ║  Ini file yang diupload ke Netlify/hosting ║
+  ║                                            ║
+  ║  GANTI NOMOR WA:                           ║
+  ║  Cari 6281262288778 → ganti nomor kamu     ║
+  ║  Format: 62 + nomor tanpa angka 0 depan    ║
+  ╚════════════════════════════════════════════╝
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g1:#16a34a; --g2:#22c55e; --g3:#4ade80;
+  --gbg:#f0fdf4; --gbdr:#bbf7d0; --gl:#dcfce7;
+  --dark:#1a2e1f; --mid:#374151; --mut:#6b7280;
+  --cream:#f8fffe; --wh:#fff;
+  --sh:0 4px 20px rgba(22,163,74,.09);
+  --shm:0 12px 40px rgba(22,163,74,.15);
+  --rad:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;width:100%}
+#bg{position:fixed;inset:0;z-index:-1;background-size:cover;background-position:center center;background-attachment:fixed;overflow:hidden}
+#bg::after{content:'';position:absolute;inset:0;background:rgba(240,253,244,.88)}
+
+/* ── TOPBAR ── */
+.topbar{background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--gbdr);position:sticky;top:0;z-index:500;box-shadow:var(--sh);width:100%;box-sizing:border-box}
+.tb-in{max-width:1200px;width:100%;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:10px;height:62px;box-sizing:border-box;min-width:0}
+.tb-logo{display:flex;align-items:center;gap:9px;background:none;border:none;cursor:pointer;font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--dark);padding:0;flex-shrink:0;text-decoration:none;min-width:0}
+.tb-logo img{height:36px;width:36px;object-fit:contain;border-radius:50%;border:2px solid var(--gbdr);flex-shrink:0}
+.tb-logo-dot{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g2));flex-shrink:0}
+/* Search — lebih panjang, mengisi ruang sampai ke tombol kontak */
+.srch{flex:1;position:relative;margin:0 8px;min-width:0}
+.srch input{width:100%;padding:9px 14px 9px 38px;border:1.5px solid var(--gbdr);border-radius:24px;font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;background:var(--gbg);transition:border-color .17s,box-shadow .17s;color:var(--dark)}
+.srch input:focus{border-color:var(--g1);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+.srch-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mut);pointer-events:none}
+.tb-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.btn-kontak{display:flex;align-items:center;gap:6px;background:var(--gbg);border:1.5px solid var(--gbdr);color:var(--g1);border-radius:20px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .17s;white-space:nowrap}
+.btn-kontak:hover{background:var(--g1);color:#fff;border-color:var(--g1)}
+.cart-btn{position:relative;background:none;border:none;cursor:pointer;color:var(--mid);padding:9px;border-radius:10px;transition:all .17s;display:flex;align-items:center}
+.cart-btn:hover{background:var(--gbg);color:var(--g1)}
+.cart-n{position:absolute;top:3px;right:3px;background:var(--g1);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;flex-shrink:0}
+.bl{display:block;width:21px;height:2.5px;background:var(--dark);border-radius:2px;transition:all .28s}
+.burger.open .bl:nth-child(1){transform:rotate(45deg) translate(5px,5.5px)}
+.burger.open .bl:nth-child(2){opacity:0}
+.burger.open .bl:nth-child(3){transform:rotate(-45deg) translate(5px,-5.5px)}
+
+/* ── BRAND NAV — TIDAK sticky, tidak ikut scroll ── */
+.brand-nav{background:rgba(255,255,255,.97);border-bottom:1px solid var(--gbdr);box-shadow:0 1px 6px rgba(22,163,74,.05);width:100%;box-sizing:border-box;overflow:hidden}
+.brand-nav-in{max-width:1200px;width:100%;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;justify-content:center;box-sizing:border-box}
+.chip{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:22px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--mid);background:var(--gbg);border:1.5px solid var(--gbdr);transition:all .17s;white-space:nowrap}
+.chip:hover{background:var(--g1);color:#fff;border-color:var(--g1)}
+.chip.on{background:var(--g1);color:#fff;border-color:var(--g1)}
+.chip img{width:20px;height:20px;object-fit:contain;border-radius:4px}
+
+/* Mobile nav - tidak dipakai lagi, diganti dropdown */
+.mob-nav{display:none}
+/* Dropdown brand untuk mobile */
+.brand-mob-wrap{display:none;padding:10px 14px;background:#fff;border-bottom:1px solid var(--gbdr)}
+.brand-mob-select{width:100%;padding:10px 14px;border:1.5px solid var(--gbdr);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--dark);background:var(--gbg);outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%2316a34a' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.brand-mob-select:focus{border-color:var(--g1)}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:52px 20px 40px}
+.hero-inner{max-width:580px;margin:0 auto}
+.hero-logo{margin:0 auto 16px}
+.hero-logo img{height:70px;width:70px;object-fit:contain;border-radius:18px;border:2px solid var(--gbdr);box-shadow:var(--sh);flex-shrink:0}
+.hero-logo-dot{width:70px;height:70px;border-radius:18px;background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:var(--shm);margin:0 auto}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,46px);font-weight:700;color:var(--dark);line-height:1.1;margin-bottom:10px}
+.hero-tagline{font-size:15px;color:var(--mid);line-height:1.72;max-width:420px;margin:0 auto}
+
+/* ── PRODUK ── */
+.sec{max-width:1200px;width:100%;margin:0 auto;padding:0 20px 36px;box-sizing:border-box}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--gbdr);flex-wrap:wrap}
+.sec-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--dark)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.pcard{background:rgba(255,255,255,.97);border:1.5px solid var(--gbdr);border-radius:var(--rad);overflow:hidden;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s,border-color .22s;cursor:default}
+.pcard:hover{transform:translateY(-5px);box-shadow:var(--shm);border-color:var(--g1)}
+.pcard-img{height:160px;background:var(--gbg);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.pcard-img img{width:100%;height:100%;object-fit:contain;padding:8px;transition:transform .3s}
+.pcard:hover .pcard-img img{transform:scale(1.03)}
+.pcard-init{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--g1);opacity:.2}
+.pcard-type{position:absolute;bottom:8px;left:10px;background:rgba(22,163,74,.85);color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px}
+.pcard-body{padding:13px 15px;flex:1;display:flex;flex-direction:column;gap:5px}
+.pcard-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--g1)}
+.pcard-name{font-family:'Playfair Display',serif;font-size:14.5px;font-weight:700;color:var(--dark);line-height:1.25}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px;gap:6px}
+.pcard-price{font-size:14.5px;font-weight:700;color:var(--g1)}
+.pcard-btn{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border:none;border-radius:20px;padding:7px 13px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;box-shadow:0 3px 10px rgba(22,163,74,.2)}
+.pcard-btn:hover{transform:scale(1.04);box-shadow:0 5px 16px rgba(22,163,74,.35)}
+.empty{text-align:center;padding:56px 20px}
+.empty-ico{font-size:48px;opacity:.3;margin-bottom:14px}
+.empty-txt{font-size:15px;color:var(--mut)}
+
+/* ── MODAL KONTAK (tanpa upload foto) ── */
+.ov{position:fixed;inset:0;z-index:700;background:rgba(26,46,31,.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px}
+.mbox{background:#fff;border-radius:20px;width:100%;max-width:440px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.mhd{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #f3f4f6;position:sticky;top:0;background:#fff;z-index:5}
+.mht{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--dark)}
+.mcl{width:32px;height:32px;background:#f3f4f6;border:none;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .14s;color:var(--mid)}
+.mcl:hover{background:var(--gbdr);color:var(--g1)}
+.mbd{padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.mfl{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+.mfi{padding:10px 13px;border:2px solid #e5e7eb;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .14s;background:#fff;resize:none;width:100%}
+.mfi:focus{border-color:var(--g1)}
+.btn-wa-k{width:100%;padding:13px;background:#25D366;color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 5px 18px rgba(37,211,102,.28);transition:all .2s}
+.btn-wa-k:hover{background:#1fb957;transform:translateY(-2px)}
+
+/* ── KERANJANG ── */
+.cart-ov{position:fixed;inset:0;z-index:600;background:rgba(26,46,31,.45);backdrop-filter:blur(4px);display:flex;justify-content:flex-end}
+.cp{background:#fff;width:100%;max-width:440px;height:100%;overflow:hidden;display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.14);animation:cpIn .22s ease}
+@keyframes cpIn{from{transform:translateX(36px);opacity:0}to{transform:none;opacity:1}}
+.cp-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #f3f4f6;flex-shrink:0}
+.cp-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark)}
+.cp-close{width:34px;height:34px;background:#f3f4f6;border:none;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .14s;color:var(--mid)}
+.cp-close:hover{background:var(--gbdr);color:var(--g1)}
+.stps{display:flex;align-items:center;padding:12px 22px;gap:7px;border-bottom:1px solid #f3f4f6;flex-shrink:0}
+.stp{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--mut)}
+.stp.on{color:var(--g1)}
+.stp-n{width:24px;height:24px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.stp.on .stp-n{background:var(--g1);color:#fff}
+.stp-line{flex:1;height:2px;background:#f3f4f6}
+.cp-body{flex:1;overflow-y:auto;padding:14px 20px;display:flex;flex-direction:column;gap:11px}
+.cp-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 20px}
+/* Item keranjang */
+.ci{display:flex;background:var(--gbg);border-radius:12px;overflow:hidden;border:1.5px solid var(--gbdr)}
+.ci-bar{width:4px;flex-shrink:0;background:var(--g1)}
+.ci-info{flex:1;padding:11px 10px 11px 13px;min-width:0}
+.ci-brand{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);margin-bottom:2px}
+.ci-name{font-size:13px;font-weight:600;color:var(--dark);line-height:1.3;margin-bottom:2px}
+.ci-unit{font-size:11.5px;color:var(--mut)}
+.ci-r{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:10px 12px 10px 0;gap:5px}
+.qw{display:flex;align-items:center}
+.qb{width:28px;height:28px;background:#fff;border:1.5px solid var(--gbdr);cursor:pointer;font-size:17px;font-weight:700;color:var(--mid);display:flex;align-items:center;justify-content:center;transition:all .13s;flex-shrink:0;line-height:1}
+.qb:first-child{border-radius:8px 0 0 8px}
+.qb:last-child{border-radius:0 8px 8px 0}
+.qb:hover{background:var(--g1);color:#fff;border-color:var(--g1)}
+.qi{width:46px;height:28px;border:1.5px solid var(--gbdr);border-left:none;border-right:none;text-align:center;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;outline:none;background:#fff;color:var(--dark)}
+.qi:focus{border-color:var(--g1)}
+.ci-sub{font-size:13px;font-weight:700;color:var(--dark);white-space:nowrap}
+.ci-del{background:none;border:none;cursor:pointer;color:#d1d5db;font-size:15px;transition:color .13s}
+.ci-del:hover{color:#dc2626}
+/* Summary */
+.cp-sum{background:var(--gbg);border-radius:12px;padding:15px;border:1.5px solid var(--gbdr);margin-top:auto}
+.sum-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:5px}
+.sum-total-row{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:800;color:var(--dark);padding-top:9px;border-top:2px solid var(--gbdr);margin-bottom:14px}
+.sum-total-price{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--g1)}
+.sum-note{font-size:11px;color:var(--mut);margin-bottom:14px}
+.btn-next{width:100%;padding:13px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 5px 18px rgba(22,163,74,.25);transition:all .2s}
+.btn-next:hover{transform:translateY(-2px)}
+/* Checkout form */
+.chk{display:flex;flex-direction:column;gap:9px}
+.chk-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--dark);margin-bottom:6px}
+/* Tabel data pelanggan yang rapi */
+.data-tbl{width:100%;border-collapse:collapse;background:var(--gbg);border-radius:10px;overflow:hidden;border:1.5px solid var(--gbdr);margin-bottom:14px}
+.data-tbl td{padding:10px 13px;font-size:13px;vertical-align:middle;border-bottom:1px solid var(--gbdr)}
+.data-tbl tr:last-child td{border-bottom:none}
+.data-tbl td:first-child{font-weight:700;color:var(--mut);white-space:nowrap;width:80px;background:rgba(240,253,244,.5)}
+.data-inp{padding:7px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .14s;background:#fff;width:100%}
+.data-inp:focus{border-color:var(--g1)}
+.data-ta{padding:7px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .14s;background:#fff;width:100%;resize:none}
+.data-ta:focus{border-color:var(--g1)}
+/* Rincian pesanan */
+.or-wrap{background:var(--gbg);border-radius:11px;padding:13px;border:1.5px solid var(--gbdr)}
+.or-head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);margin-bottom:8px}
+.or-brand{margin-bottom:9px}
+.or-bname{font-size:12px;font-weight:700;color:var(--g1);padding-bottom:5px;border-bottom:1px dashed var(--gbdr);margin-bottom:5px}
+.or-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--mid);padding:2px 0}
+.or-sep{border:none;border-top:1.5px dashed var(--gbdr);margin:8px 0}
+.or-subtotal,.or-ongkir{display:flex;justify-content:space-between;font-size:13px;color:var(--mid);padding:2px 0}
+.or-total{display:flex;justify-content:space-between;padding-top:8px;border-top:2px solid var(--gbdr);margin-top:4px;font-size:14.5px;font-weight:800;color:var(--dark)}
+.or-total-price{color:var(--g1);font-family:'Playfair Display',serif;font-size:18px}
+.btn-wa{width:100%;padding:13px;background:#25D366;color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;box-shadow:0 5px 18px rgba(37,211,102,.28)}
+.btn-wa:hover{background:#1fb957;transform:translateY(-2px)}
+.btn-back{background:none;border:none;color:var(--mut);font-size:12.5px;cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;padding:5px;transition:color .14s}
+.btn-back:hover{color:var(--mid)}
+
+.toast-fe{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;padding:11px 22px;border-radius:24px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:800;white-space:nowrap;animation:tup .26s ease}
+@keyframes tup{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ── FOOTER ── */
+.footer{background:#052e16;color:rgba(255,255,255,.55);padding:32px 20px;margin-top:60px;text-align:center}
+.footer-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:8px}
+.footer-copy{font-size:12px;opacity:.45;margin-top:10px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .tb-in{padding:0 12px;gap:7px}
+  /* Sembunyikan teks nama toko di mobile agar tidak overflow */
+  .tb-logo span{display:none}
+  /* Di mobile: sembunyikan chip brand, tampilkan dropdown */
+  .brand-nav{display:none}
+  .brand-mob-wrap{display:block}
+  .hero{padding:36px 14px 28px}
+  .sec{padding-left:14px;padding-right:14px}
+  .pgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
+  /* Sembunyikan burger - tidak dipakai lagi */
+  .burger{display:none}
+  .footer{padding:26px 14px}
+  /* Tombol kontak lebih compact di mobile */
+  .btn-kontak{padding:7px 10px;font-size:11.5px}
+}
+@media(max-width:480px){
+  .cp{max-width:100%}
+  .pgrid{grid-template-columns:1fr 1fr;gap:10px}
+  .pcard-img{height:130px}
+  .pcard-body{padding:10px 12px}
+  .pcard-foot{flex-direction:column;align-items:stretch;gap:6px}
+  .pcard-btn{text-align:center;padding:8px}
+  .btn-kontak span{display:none}
+}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script>
+/* ════════════════════════════════════════════════
+   DATA TOKO — diisi otomatis oleh admin.html
+   Ubah di admin.html lalu Export index.html baru
+   ════════════════════════════════════════════════ */
+window.STORE = {
+  storeName: "Glow Beauty Store",
+  tagline: "Skincare & Kosmetik Terbaik untuk Kulit Sehat Bercahaya",
+  copyright: "\u00a9 2025 Glow Beauty Store. All rights reserved.",
+  waNumber: "6281262288778",
+  storeLogo: null,
+  background: null,
+  brands: [
+    {id:"hanasui",name:"Hanasui",logo:null},
+    {id:"azarine",name:"Azarine",logo:null},
+    {id:"scarlett",name:"Scarlett Whitening",logo:null},
+    {id:"wardah",name:"Wardah",logo:null},
+    {id:"somethinc",name:"Somethinc",logo:null}
+  ],
+  products: [
+    {id:"h1",brandId:"hanasui",type:"Lip Cream",name:"Hanasui Lipcream No.01 Merah Muda",price:22000,image:null,featured:true},
+    {id:"h2",brandId:"hanasui",type:"Lip Cream",name:"Hanasui Lipcream No.05 Nude Beige",price:22000,image:null,featured:false},
+    {id:"h3",brandId:"hanasui",type:"Lip Tint",name:"Hanasui Watery Lip Tint Cherry Red",price:25000,image:null,featured:true},
+    {id:"h4",brandId:"hanasui",type:"Foundation",name:"Hanasui Powdery Foundation Ivory",price:35000,image:null,featured:false},
+    {id:"az1",brandId:"azarine",type:"Sunscreen",name:"Azarine Hydrasoothe Sunscreen SPF45 PA++++",price:45000,image:null,featured:true},
+    {id:"az2",brandId:"azarine",type:"Sunscreen",name:"Azarine Cooling Serum Sunscreen SPF50",price:52000,image:null,featured:false},
+    {id:"az3",brandId:"azarine",type:"Moisturizer",name:"Azarine Hydra Boost Moisturizer",price:38000,image:null,featured:false},
+    {id:"az4",brandId:"azarine",type:"Serum",name:"Azarine Brightening Niacinamide Serum",price:65000,image:null,featured:true},
+    {id:"sc1",brandId:"scarlett",type:"Body Lotion",name:"Scarlett Whitening Body Lotion Romansa",price:47000,image:null,featured:true},
+    {id:"sc2",brandId:"scarlett",type:"Body Lotion",name:"Scarlett Whitening Body Lotion Freshy",price:47000,image:null,featured:false},
+    {id:"sc3",brandId:"scarlett",type:"Body Scrub",name:"Scarlett Whitening Body Scrub Romansa",price:47000,image:null,featured:false},
+    {id:"sc4",brandId:"scarlett",type:"Serum",name:"Scarlett Brightening Facial Serum",price:89000,image:null,featured:true},
+    {id:"wd1",brandId:"wardah",type:"Lip Cream",name:"Wardah Exclusive Matte Lip Cream No.01",price:58000,image:null,featured:false},
+    {id:"wd2",brandId:"wardah",type:"Sunscreen",name:"Wardah UV Shield Sunscreen SPF35",price:67000,image:null,featured:true},
+    {id:"wd3",brandId:"wardah",type:"Foundation",name:"Wardah Colorfit Matte Foundation Beige",price:89000,image:null,featured:false},
+    {id:"wd4",brandId:"wardah",type:"Skincare",name:"Wardah Crystal Secret Essence",price:95000,image:null,featured:false},
+    {id:"sm1",brandId:"somethinc",type:"Serum",name:"Somethinc Niacinamide 10% Serum",price:129000,image:null,featured:true},
+    {id:"sm2",brandId:"somethinc",type:"Sunscreen",name:"Somethinc Level 3 Sunscreen SPF50",price:135000,image:null,featured:false},
+    {id:"sm3",brandId:"somethinc",type:"Moisturizer",name:"Somethinc Barrier+ Moisturizer",price:155000,image:null,featured:true},
+    {id:"sm4",brandId:"somethinc",type:"Serum",name:"Somethinc Vitamin C 15% Brightening Serum",price:145000,image:null,featured:false}
+  ]
+};
+window.ONGKIR = 8000;
+</script>
+<script type="text/babel">
+const { brands, products, storeName, tagline, copyright, waNumber, storeLogo, background } = window.STORE;
+const WA = waNumber || "6281262288778";
+const ONGKIR = window.ONGKIR;
+const { useState, useEffect } = React;
+const Rp = n => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",minimumFractionDigits:0}).format(n);
+
+/* Item keranjang */
+function CI({ item, upd, commit, del }) {
+  return (
+    <div className="ci">
+      <div className="ci-bar"/>
+      <div className="ci-info">
+        <p className="ci-brand">{item.brandName} · {item.type}</p>
+        <p className="ci-name">{item.name}</p>
+        <p className="ci-unit">{Rp(item.price)} / pcs</p>
+      </div>
+      <div className="ci-r">
+        <div className="qw">
+          <button className="qb" onClick={()=>{upd(item.id,Math.max(0,(parseInt(item.qty)||1)-1));setTimeout(()=>commit(item.id),40)}}>&#8722;</button>
+          <input className="qi" value={item.qty}
+            onChange={e=>upd(item.id,e.target.value)}
+            onBlur={()=>commit(item.id)}
+            onKeyDown={e=>e.key==="Enter"&&commit(item.id)}/>
+          <button className="qb" onClick={()=>upd(item.id,(parseInt(item.qty)||0)+1)}>+</button>
+        </div>
+        <div className="ci-sub">{Rp((parseInt(item.qty)||0)*item.price)}</div>
+        <button className="ci-del" onClick={()=>del(item.id)}>&#10005;</button>
+      </div>
+    </div>
+  );
+}
+
+/* Modal kontak — tanpa upload foto/video */
+function KontakModal({ onClose }) {
+  const [nama, setNama] = useState("");
+  const [hp,   setHp]   = useState("");
+  const [msg,  setMsg]  = useState("");
+  const kirim = () => {
+    if (!nama.trim()||!hp.trim()||!msg.trim()) return alert("Lengkapi nama, nomor HP, dan pesan.");
+    const hr = "─".repeat(24);
+    const teks = `KOMPLAIN / PERTANYAAN\n${hr}\nNama : ${nama}\nHP   : ${hp}\n${hr}\n${msg}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(teks)}`, "_blank");
+    onClose();
+  };
+  return (
+    <div className="ov" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="mbox">
+        <div className="mhd">
+          <span className="mht">Hubungi Kami</span>
+          <button className="mcl" onClick={onClose}>&#10005;</button>
+        </div>
+        <div className="mbd">
+          <p style={{fontSize:13,color:"#6b7280",lineHeight:1.6}}>Ada pertanyaan atau keluhan? Kami akan segera merespons via WhatsApp.</p>
+          <label className="mfl">Nama Lengkap *</label>
+          <input className="mfi" placeholder="Nama kamu..." value={nama} onChange={e=>setNama(e.target.value)}/>
+          <label className="mfl">Nomor WhatsApp / HP *</label>
+          <input className="mfi" placeholder="08xxxxxxxxx" value={hp} onChange={e=>setHp(e.target.value)}/>
+          <label className="mfl">Pesan / Keluhan *</label>
+          <textarea className="mfi" rows={5} placeholder="Tulis pesan atau keluhan kamu..." value={msg} onChange={e=>setMsg(e.target.value)}/>
+          <button className="btn-wa-k" onClick={kirim}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Kirim via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Panel keranjang */
+function CartPanel({ cart, total, close, upd, commit, del }) {
+  const [nama,  setNama]  = useState("");
+  const [hp,    setHp]    = useState("");
+  const [alamat,setAlamat]= useState("");
+  const [step,  setStep]  = useState(1);
+  const qty = cart.reduce((s,i)=>s+(parseInt(i.qty)||0),0);
+  const totalDenganOngkir = total + ONGKIR;
+  const grouped = {};
+  cart.forEach(i=>{if(!grouped[i.brandName])grouped[i.brandName]=[];grouped[i.brandName].push(i);});
+
+  const send = () => {
+    if (!nama.trim()||!hp.trim()||!alamat.trim()) return alert("Lengkapi nama, nomor HP, dan alamat.");
+    const bar = "━".repeat(28);
+    const sep = "─".repeat(28);
+    let msg = `🌿 *PESANAN BARU*\n${bar}\n`;
+    msg += `👤 *DATA PELANGGAN*\n`;
+    msg += `┌${"─".repeat(22)}\n`;
+    msg += `│ Nama   : ${nama}\n`;
+    msg += `│ No. HP : ${hp}\n`;
+    msg += `│ Alamat : ${alamat}\n`;
+    msg += `└${"─".repeat(22)}\n\n`;
+    msg += `🛍️ *DETAIL PESANAN*\n${sep}\n`;
+    Object.entries(grouped).forEach(([br,items])=>{
+      msg += `\n📦 *${br}*\n`;
+      items.forEach((i,n)=>{ msg += `  ${n+1}. ${i.name}\n     ${i.qty} pcs × ${Rp(i.price)} = *${Rp(i.qty*i.price)}*\n`; });
+    });
+    msg += `\n${sep}\n`;
+    msg += `💰 Subtotal     : ${Rp(total)}\n`;
+    msg += `🚚 Ongkos Kirim : ${Rp(ONGKIR)}\n`;
+    msg += `${bar}\n`;
+    msg += `💵 *TOTAL BAYAR : ${Rp(totalDenganOngkir)}*\n${bar}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  return (
+    <div className="cart-ov" onClick={e=>e.target===e.currentTarget&&close()}>
+      <div className="cp">
+        <div className="cp-head">
+          <h2 className="cp-title">Keranjang Belanja</h2>
+          <button className="cp-close" onClick={close}>&#10005;</button>
+        </div>
+        {cart.length > 0 && (
+          <div className="stps">
+            <div className={`stp ${step>=1?"on":""}`}><span className="stp-n">1</span>Pesanan</div>
+            <div className="stp-line"/>
+            <div className={`stp ${step>=2?"on":""}`}><span className="stp-n">2</span>Data Diri</div>
+          </div>
+        )}
+        <div className="cp-body">
+          {!cart.length ? (
+            <div className="cp-empty">
+              <div style={{fontSize:48,opacity:.3,marginBottom:13}}>🛍️</div>
+              <p style={{fontSize:16,fontWeight:700,marginBottom:5,color:"var(--dark)"}}>Keranjang Kosong</p>
+              <small style={{fontSize:13,color:"#9ca3af"}}>Pilih produk dari toko kami</small>
+            </div>
+          ) : step === 1 ? (
+            <>
+              {cart.map(i=><CI key={i.id} item={i} upd={upd} commit={commit} del={del}/>)}
+              <div className="cp-sum">
+                <div className="sum-row"><span>Subtotal ({qty} item)</span><span style={{fontWeight:700,color:"var(--g1)"}}>{Rp(total)}</span></div>
+                <div className="sum-row"><span>Ongkos Kirim</span><span style={{fontWeight:600}}>{Rp(ONGKIR)}</span></div>
+                <div className="sum-total-row"><span>Total Bayar</span><span className="sum-total-price">{Rp(totalDenganOngkir)}</span></div>
+                <button className="btn-next" onClick={()=>setStep(2)}>Lanjut ke Data Pemesan</button>
+              </div>
+            </>
+          ) : (
+            <div className="chk">
+              <p className="chk-title">Data Pemesan</p>
+              {/* Tabel data pelanggan yang rapi */}
+              <table className="data-tbl">
+                <tbody>
+                  <tr>
+                    <td>Nama</td>
+                    <td><input className="data-inp" placeholder="Nama lengkap..." value={nama} onChange={e=>setNama(e.target.value)}/></td>
+                  </tr>
+                  <tr>
+                    <td>No. HP</td>
+                    <td><input className="data-inp" placeholder="08xxxxxxxxx" value={hp} onChange={e=>setHp(e.target.value)}/></td>
+                  </tr>
+                  <tr>
+                    <td>Alamat</td>
+                    <td><textarea className="data-ta" rows={3} placeholder="Jalan, No, RT/RW, Kel, Kec, Kota" value={alamat} onChange={e=>setAlamat(e.target.value)}/></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              {/* Rincian pesanan */}
+              <div className="or-wrap">
+                <p className="or-head">Rincian Pesanan</p>
+                {Object.entries(grouped).map(([br,items])=>(
+                  <div key={br} className="or-brand">
+                    <div className="or-bname">{br}</div>
+                    {items.map(i=>(
+                      <div key={i.id} className="or-row">
+                        <span style={{flex:1}}>{i.name} &times;{i.qty}</span>
+                        <span><strong>{Rp(i.qty*i.price)}</strong></span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                <hr className="or-sep"/>
+                <div className="or-subtotal"><span>Subtotal</span><span>{Rp(total)}</span></div>
+                <div className="or-ongkir"><span>Ongkos Kirim</span><span>{Rp(ONGKIR)}</span></div>
+                <div className="or-total"><span>TOTAL BAYAR</span><span className="or-total-price">{Rp(totalDenganOngkir)}</span></div>
+              </div>
+
+              <button className="btn-wa" onClick={send}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Kirim Pesanan via WhatsApp
+              </button>
+              <button className="btn-back" onClick={()=>setStep(1)}>&#8592; Kembali ke Keranjang</button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Aplikasi utama */
+function App() {
+  const [activeBrand, setActiveBrand] = useState("all");
+  const [cart,        setCart]        = useState([]);
+  const [cartOpen,    setCartOpen]    = useState(false);
+  const [kontakOpen,  setKontakOpen]  = useState(false);
+  const [search,      setSearch]      = useState("");
+  const [toast,       setToast]       = useState(null);
+
+  useEffect(()=>{ if(background) document.getElementById("bg").style.backgroundImage=`url('${background}')`; },[]);
+
+  const notify = msg => { setToast(msg); setTimeout(()=>setToast(null),2200); };
+  const addCart = p => {
+    setCart(prev=>{
+      const ex=prev.find(i=>i.id===p.id);
+      if(ex) return prev.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i);
+      return [...prev,{...p,qty:1}];
+    });
+    notify("Ditambahkan ke keranjang ✓");
+  };
+  const updQty   = (id,raw) => setCart(prev=>prev.map(i=>i.id===id?{...i,qty:raw===""?"":Math.max(0,parseInt(raw)||0)}:i));
+  const commitQty= id => setCart(prev=>prev.map(i=>i.id===id?{...i,qty:parseInt(i.qty)||0}:i).filter(i=>i.qty>0));
+  const delItem  = id => setCart(prev=>prev.filter(i=>i.id!==id));
+  const totalItems = cart.reduce((s,i)=>s+(parseInt(i.qty)||0),0);
+  const totalPrice = cart.reduce((s,i)=>s+(parseInt(i.qty)||0)*i.price,0);
+  const getBrand = id => brands.find(b=>b.id===id);
+
+  const featuredProds = products.filter(p=>p.featured);
+  const filtered = products.filter(p=>{
+    if (activeBrand!=="all" && p.brandId!==activeBrand) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      if (!(p.name.toLowerCase().includes(q)||p.type.toLowerCase().includes(q)||(getBrand(p.brandId)?.name||"").toLowerCase().includes(q))) return false;
+    }
+    return true;
+  });
+
+  return (
+    <>
+      {/* TOPBAR — sticky */}
+      <header className="topbar">
+        <div className="tb-in">
+          <button className="tb-logo" onClick={()=>{setActiveBrand("all");setSearch("");}}>
+            {storeLogo?<img src={storeLogo} alt="logo"/>:<div className="tb-logo-dot"/>}
+            <span>{storeName}</span>
+          </button>
+          {/* Search bar — flex:1 mengisi semua ruang yang tersedia */}
+          <div className="srch">
+            <svg className="srch-ico" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input
+              placeholder="Cari produk, brand, jenis..."
+              value={search}
+              onChange={e=>{setSearch(e.target.value);setActiveBrand("all");}}
+            />
+          </div>
+          <div className="tb-r">
+            <button className="btn-kontak" onClick={()=>setKontakOpen(true)}>
+              <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>Kontak &amp; Komplain</span>
+            </button>
+            <button className="cart-btn" onClick={()=>setCartOpen(true)}>
+              <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              {totalItems>0 && <span className="cart-n">{totalItems>99?"99+":totalItems}</span>}
+            </button>
+
+          </div>
+        </div>
+      </header>
+
+      {/* BRAND NAV — TIDAK sticky, tidak ikut scroll */}
+      <nav className="brand-nav">
+        <div className="brand-nav-in">
+          <button className={`chip ${activeBrand==="all"?"on":""}`} onClick={()=>{setActiveBrand("all");setSearch("");}}>
+            Semua Brand
+          </button>
+          {brands.map(b=>(
+            <button key={b.id} className={`chip ${activeBrand===b.id?"on":""}`} onClick={()=>{setActiveBrand(b.id);setSearch("");}}>
+              {b.logo && <img src={b.logo} alt={b.name}/>}
+              {b.name}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+
+
+      {/* HERO */}
+      <div className="hero">
+        <div className="hero-inner">
+          <div className="hero-logo">
+            {storeLogo ? <img src={storeLogo} alt="logo"/> : <div className="hero-logo-dot"/>}
+          </div>
+          <h1 className="hero-name">{storeName}</h1>
+          <p className="hero-tagline">{tagline}</p>
+        </div>
+      </div>
+
+      {/* PRODUK UNGGULAN (featured) */}
+      {activeBrand==="all" && !search && featuredProds.length>0 && (
+        <div className="sec">
+          <div className="sec-head">
+            <h2 className="sec-title">&#10024; Produk Unggulan</h2>
+            <span style={{background:"#fef3c7",color:"#d97706",fontSize:11,fontWeight:700,padding:"3px 10px",borderRadius:8,border:"1px solid #fcd34d"}}>Pilihan Admin</span>
+          </div>
+          <div className="pgrid">
+            {featuredProds.map(p=>{
+              const b = getBrand(p.brandId);
+              const cq = cart.find(i=>i.id===p.id)?.qty||0;
+              return (
+                <div key={p.id} className="pcard">
+                  <div className="pcard-img">
+                    {p.image?<img src={p.image} alt={p.name}/>:<span className="pcard-init">{(b?.name||"?").slice(0,2)}</span>}
+                    <span className="pcard-type">{p.type}</span>
+                  </div>
+                  <div className="pcard-body">
+                    <p className="pcard-brand">{b?.name||"—"}</p>
+                    <h3 className="pcard-name">{p.name}</h3>
+                    <div className="pcard-foot">
+                      <span className="pcard-price">{Rp(p.price)}</span>
+                      <button className="pcard-btn" onClick={()=>addCart({...p,brandName:b?.name||""})}>
+                        {cq>0?`Tambah (${cq})`:"+ Keranjang"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* SEMUA PRODUK */}
+      <div className="sec">
+        <div className="sec-head">
+          <h2 className="sec-title">
+            {search ? `Hasil: "${search}"` : activeBrand==="all" ? "Semua Produk" : brands.find(b=>b.id===activeBrand)?.name||"Produk"}
+          </h2>
+          <span style={{fontSize:12,color:"#9ca3af"}}>{filtered.length} produk</span>
+        </div>
+        {!filtered.length ? (
+          <div className="empty">
+            <div className="empty-ico">&#128269;</div>
+            <p className="empty-txt">Produk tidak ditemukan.</p>
+          </div>
+        ) : (
+          <div className="pgrid">
+            {filtered.map(p=>{
+              const b = getBrand(p.brandId);
+              const cq = cart.find(i=>i.id===p.id)?.qty||0;
+              return (
+                <div key={p.id} className="pcard">
+                  <div className="pcard-img">
+                    {p.image?<img src={p.image} alt={p.name}/>:<span className="pcard-init">{(b?.name||"?").slice(0,2)}</span>}
+                    <span className="pcard-type">{p.type}</span>
+                  </div>
+                  <div className="pcard-body">
+                    <p className="pcard-brand">{b?.name||"—"}</p>
+                    <h3 className="pcard-name">{p.name}</h3>
+                    <div className="pcard-foot">
+                      <span className="pcard-price">{Rp(p.price)}</span>
+                      <button className="pcard-btn" onClick={()=>addCart({...p,brandName:b?.name||""})}>
+                        {cq>0?`Tambah (${cq})`:"+ Keranjang"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <footer className="footer">
+        <div className="footer-name">{storeName}</div>
+        <p style={{fontSize:13,opacity:.5}}>{tagline}</p>
+        <p className="footer-copy">{copyright}</p>
+      </footer>
+
+      {cartOpen  && <CartPanel cart={cart} total={totalPrice} close={()=>setCartOpen(false)} upd={updQty} commit={commitQty} del={delItem}/>}
+      {kontakOpen && <KontakModal onClose={()=>setKontakOpen(false)}/>}
+      {toast && <div className="toast-fe">{toast}</div>}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
